@@ -879,6 +879,10 @@ class AppVolumeMenuToggle extends QuickMenuToggle {
             try { this._mixerDialog.destroy(); } catch (_e) {}
             this._mixerDialog = null;
         }
+        //Just to satisfy shexli
+        for (const slider of this._activeSliders) {
+            try { slider.destroy(); } catch (_e) {}
+        }
         this._activeSliders.clear();
         if (this._mixerControl) {
             if (this._streamAddedId) {

@@ -40,7 +40,8 @@ jobs:
             metadata.json \
             stylesheet.css \
             LICENSE \
-            schemas/
+            schemas/ \
+            --exclude "schemas/gschemas.compiled"
 
       - name: Run shexli static analysis
         run: |
