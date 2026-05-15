@@ -42,6 +42,19 @@ jobs:
             LICENSE \
             schemas/
 
+      - name: Run shexli static analysis
+        run: |
+          pip install shexli -q
+          RESULT=$(shexli "${{ steps.meta.outputs.zip }}" --format json)
+          echo "$RESULT" | python3 -m json.tool
+          ERRORS=$(echo "$RESULT" | python3 -c \
+            "import sys,json; d=json.load(sys.stdin); print(d['summary']['severity_counts'].get('error', 0))")
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::shexli found $ERRORS error(s) — blocking release"
+            exit 1
+          fi
+          echo "shexli: no errors"
+
       - name: Delete existing release for this version (if any)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
