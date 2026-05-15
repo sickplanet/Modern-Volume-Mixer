@@ -2,6 +2,7 @@ import GObject from 'gi://GObject';
 import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
@@ -9,6 +10,38 @@ import { QuickMenuToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import { Slider } from 'resource:///org/gnome/shell/ui/slider.js';
 import { getMixerControl } from 'resource:///org/gnome/shell/ui/status/volume.js';
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  resolveStreamIconName — Best-practice icon resolution pipeline
+//
+//  1. Use PulseAudio's own icon-name property (app set this when opening stream)
+//  2. Get the application_id → locate its .desktop file via XDG dirs
+//     (Gio.DesktopAppInfo handles the full XDG_DATA_DIRS search internally)
+//  3. Extract Icon= from the .desktop entry and resolve through the icon theme
+//  4. Fall back to the generic audio symbolic icon
+// ─────────────────────────────────────────────────────────────────────────────
+function resolveStreamIconName(stream) {
+    // Step 1 — PulseAudio / PipeWire may already carry a correct icon name
+    try {
+        const direct = stream.get_icon_name?.();
+        if (direct) return direct;
+    } catch (_e) {}
+
+    // Step 2-4 — app_id → .desktop entry → Icon= → theme icon name
+    try {
+        const appId = stream.get_application_id?.();
+        if (appId) {
+            const desktopId = appId.endsWith('.desktop') ? appId : `${appId}.desktop`;
+            const info = Gio.DesktopAppInfo.new(desktopId);
+            if (info) {
+                const icon = info.get_icon();
+                if (icon) return icon.to_string();
+            }
+        }
+    } catch (_e) {}
+
+    return 'audio-x-generic-symbolic';
+}
 
 const AppStreamSlider = GObject.registerClass({
     Properties: {
@@ -33,12 +66,8 @@ const AppStreamSlider = GObject.registerClass({
         this._volumeChangedId = 0;
         this._iconWidget = null;
 
-        // Resolve icon name safely
-        let iconName = 'audio-x-generic-symbolic';
-        try {
-            if (stream.get_icon_name?.()) iconName = stream.get_icon_name();
-            else if (stream.get_application_id?.()) iconName = stream.get_application_id();
-        } catch (_e) {}
+        // Resolve icon name via the best-practice pipeline
+        const iconName = resolveStreamIconName(stream);
 
         // Resolve display name
         let name = 'Unknown App';
@@ -280,10 +309,7 @@ class MixerColumn extends St.BoxLayout {
         this.add_child(sliderArea);
 
         // ── App icon — tap to mute/unmute ────────────────────────────────────
-        this._appIconName = 'audio-x-generic-symbolic';
-        try {
-            if (stream.get_icon_name?.()) this._appIconName = stream.get_icon_name();
-        } catch (_e) {}
+        this._appIconName = resolveStreamIconName(stream);
 
         const isMutedNow = !!stream.is_muted;
         this._iconWidget = new St.Icon({
