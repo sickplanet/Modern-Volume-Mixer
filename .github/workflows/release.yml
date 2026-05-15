@@ -63,14 +63,17 @@ jobs:
         run: |
           TAG="${{ steps.meta.outputs.tag }}"
           ZIP="${{ steps.meta.outputs.zip }}"
+          cat > release_notes.md << EOF
+          ## Modern Volume Mixer ${TAG}
+
+          Built automatically from \`main\`. Install with:
+
+          \`\`\`bash
+          gnome-extensions install ${ZIP}
+          \`\`\`
+          EOF
           gh release create "$TAG" \
             --repo  "$GITHUB_REPOSITORY" \
             --title "Modern Volume Mixer $TAG" \
-            --notes "## Modern Volume Mixer $TAG
-
-  Built automatically from \`main\`. Install with:
-
-  \`\`\`bash
-  gnome-extensions install $ZIP
-  \`\`\`" \
+            --notes-file release_notes.md \
             "$ZIP"
