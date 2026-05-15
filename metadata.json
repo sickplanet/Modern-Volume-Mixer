@@ -1,0 +1,9 @@
+{
+  "name": "Modern Volume Mixer",
+  "description": "Control per application volume using pavucontrol",
+  "uuid": "modern-volume-mixer@sickplanet.users.noreply.github.com",
+  "settings-schema": "org.gnome.shell.extensions.sickplanet",
+  "shell-version": [
+    "50"
+  ]
+}

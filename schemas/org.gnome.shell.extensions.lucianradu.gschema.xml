@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.sickplanet" path="/org/gnome/shell/extensions/sickplanet/">
+    <key name="show-per-tab" type="b">
+      <default>true</default>
+      <summary>Show individual control 'per tab'</summary>
+      <description>Show individual control 'per tab' in supported applications</description>
+    </key>
+    <key name="show-volume-percent" type="b">
+      <default>true</default>
+      <summary>Show volume percentage next to slider</summary>
+      <description>Display the volume percentage label at the end of each stream slider</description>
+    </key>
+    <key name="show-app-icon" type="b">
+      <default>false</default>
+      <summary>Show application icon next to stream name (experimental)</summary>
+      <description>Try to display the application icon. May not work for all apps.</description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,13 @@
+/* App Volume Mixer — stream item layout */
+
+.app-volume-slider-row {
+    margin-top: 4px;
+}
+
+/* Percentage label at the right end of the slider row */
+.app-volume-percent {
+    min-width: 44px;
+    padding-left: 8px;
+    font-size: 0.85em;
+    opacity: 0.75;
+}
