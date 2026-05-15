@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Build & publish release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read metadata
+        id: meta
+        run: |
+          VERSION=$(jq -r '."version-name"' metadata.json)
+          UUID=$(jq    -r '.uuid'           metadata.json)
+          echo "version=$VERSION"   >> "$GITHUB_OUTPUT"
+          echo "uuid=$UUID"         >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION"      >> "$GITHUB_OUTPUT"
+          echo "zip=${UUID}.zip"    >> "$GITHUB_OUTPUT"
+
+      - name: Install GLib tools
+        run: sudo apt-get install -y --no-install-recommends libglib2.0-bin
+
+      - name: Compile GSettings schema
+        run: glib-compile-schemas schemas/
+
+      - name: Build zip
+        run: |
+          zip -r "${{ steps.meta.outputs.zip }}" \
+            extension.js \
+            prefs.js \
+            metadata.json \
+            stylesheet.css \
+            LICENSE \
+            schemas/
+
+      - name: Delete existing release for this version (if any)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.meta.outputs.tag }}"
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release $TAG already exists — deleting it first"
+            gh release delete "$TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --yes \
+              --cleanup-tag
+          else
+            echo "No existing release for $TAG"
+          fi
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.meta.outputs.tag }}"
+          ZIP="${{ steps.meta.outputs.zip }}"
+          gh release create "$TAG" \
+            --repo  "$GITHUB_REPOSITORY" \
+            --title "Modern Volume Mixer $TAG" \
+            --notes "## Modern Volume Mixer $TAG
+
+  Built automatically from \`main\`. Install with:
+
+  \`\`\`bash
+  gnome-extensions install $ZIP
+  \`\`\`" \
+            "$ZIP"
