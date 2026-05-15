@@ -20,7 +20,16 @@ A GNOME Shell extension that brings **per-application volume control** directly 
 
 ## Screenshots
 
-> _Coming soon_
+<table>
+  <tr>
+    <th align="center">Quick Settings panel</th>
+    <th align="center">Floating Mixer window</th>
+  </tr>
+  <tr>
+    <td align="center" bgcolor="#202023"><img src="screenshot0.png" alt="Quick Settings panel showing per-app volume sliders" width="320"/></td>
+    <td align="center" bgcolor="#202023"><img src="screenshot1.png" alt="Floating Volume Mixer window with vertical faders" width="320"/></td>
+  </tr>
+</table>
 
 ---
 
@@ -28,7 +37,7 @@ A GNOME Shell extension that brings **per-application volume control** directly 
 
 | Requirement | Version |
 |---|---|
-| GNOME Shell | 50+ |
+| GNOME Shell | 45+ |
 | GLib | 2.x (ships with GNOME) |
 
 ---
@@ -107,4 +116,4 @@ Merging into `main` automatically builds and publishes a release zip via GitHub 
 
 ## License
 
-[GPL-2.0](LICENSE)
+[GPL-3.0](LICENSE)
