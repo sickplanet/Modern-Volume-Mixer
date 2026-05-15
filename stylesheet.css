@@ -1,0 +1,173 @@
+/* App Volume Mixer — stream item layout */
+
+.app-volume-slider-row {
+    margin-top: 4px;
+}
+
+/* Percentage label at the right end of the slider row */
+.app-volume-percent {
+    min-width: 44px;
+    padding-left: 8px;
+    font-size: 0.85em;
+    opacity: 0.75;
+}
+
+/* ── Full Volume Mixer Window (floating, draggable) ─────────────────────── */
+
+.volume-mixer-window {
+    min-width: 380px;
+    min-height: 300px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+    background-color: rgba(30, 30, 30, 0.96);
+}
+
+.volume-mixer-titlebar {
+    padding: 6px 8px;
+    spacing: 8px;
+}
+
+.volume-mixer-title-icon {
+    opacity: 0.8;
+}
+
+.volume-mixer-title {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.volume-mixer-sep {
+    background-color: rgba(255, 255, 255, 0.15);
+    margin: 0 0 4px 0;
+}
+
+.volume-mixer-scroll {
+    min-height: 230px;
+}
+
+.volume-mixer-streams {
+    padding: 12px 8px;
+    spacing: 2px;
+}
+
+.volume-mixer-empty {
+    padding: 32px 24px;
+    opacity: 0.55;
+}
+
+/* ── Per-stream channel column ────────────────────────────────────────────── */
+
+.mixer-column {
+    min-width: 64px;
+    max-width: 64px;
+    spacing: 6px;
+    padding: 4px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mixer-column:last-child {
+    border-right: none;
+}
+
+/* The widget that clips the rotated Slider to column bounds */
+.mixer-slider-area {}
+
+.mixer-app-icon {
+    opacity: 0.9;
+    transition-duration: 100ms;
+}
+
+.mixer-app-icon:hover {
+    opacity: 1.0;
+}
+
+/* Icon turns dim when the stream is muted */
+.mixer-muted {
+    opacity: 0.3;
+}
+
+.mixer-app-name {
+    font-size: 0.75em;
+    text-align: center;
+    max-width: 60px;
+    opacity: 0.85;
+}
+
+/* Secondary stream description: song title, tab name, audio role, etc. */
+.mixer-stream-desc {
+    font-size: 0.65em;
+    text-align: center;
+    max-width: 60px;
+    opacity: 0.5;
+}
+
+/* ── Close button in title bar ───────────────────────────────────────────── */
+
+.volume-mixer-close-btn {
+    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    opacity: 0.7;
+    transition-duration: 100ms;
+}
+
+.volume-mixer-close-btn:hover {
+    background-color: rgba(255, 80, 80, 0.75);
+    border-radius: 6px;
+    opacity: 1.0;
+}
+
+/* ── App group (groups columns from the same application) ─────────────────── */
+
+.mixer-app-group {
+    spacing: 4px;
+    padding: 4px 2px;
+}
+
+.mixer-group-header {
+    font-size: 0.7em;
+    opacity: 0.6;
+    text-align: center;
+    padding-bottom: 2px;
+}
+
+.mixer-group-columns {
+    spacing: 0px;
+}
+
+/* Thin vertical divider between app groups */
+.mixer-group-divider {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 8px 4px;
+}
+
+/* ── Pill-style action buttons (Mixer / Settings) ─────────────────────────── */
+
+.mixer-pill-box {
+    spacing: 8px;
+    padding: 4px 2px;
+}
+
+.mixer-pill-btn {
+    border-radius: 999px;
+    padding: 5px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    background-color: rgba(255, 255, 255, 0.18);
+    color: white;
+    transition-duration: 120ms;
+}
+
+.mixer-pill-btn:hover {
+    background-color: rgba(255, 255, 255, 0.32);
+    border-color: rgba(255, 255, 255, 0.65);
+}
+
+.mixer-pill-btn:active {
+    background-color: rgba(255, 255, 255, 0.45);
+}
+
+.mixer-pill-inner {
+    spacing: 6px;
+}

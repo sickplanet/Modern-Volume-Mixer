@@ -1,0 +1,12 @@
+{
+  "name": "Modern Volume Mixer",
+  "description": "Per-application volume control with a full mixer window",
+  "uuid": "modern-volume-mixer@sickplanet.users.noreply.github.com",
+  "settings-schema": "org.gnome.shell.extensions.sickplanet",
+  "url": "https://github.com/sickplanet/Modern-Volume-Mixer",
+  "version": 1,
+  "version-name": "1.0.0",
+  "shell-version": [
+    "50"
+  ]
+}
